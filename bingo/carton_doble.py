@@ -45,8 +45,6 @@ class CartonDoble(Carton):
                 if numero not in self.marcados:
                     break
             else:
-                # esta fila está completa, pero el enunciado dice bingo al completar la grilla entera
-                # usamos la misma lógica de Carton: todas las casillas marcadas
                 continue
 
         # reusamos la lógica de Carton: todas las casillas marcadas

@@ -6,30 +6,21 @@ from .jugador import Jugador
 
 class Juego:
     """
-    Director de una partida de bingo. Coordina jugadores y bombo. 
+    Director de una partida de bingo. Coordina jugadores y bombo.
 
     Relaciones:
-    - Composición con Bombo: crea y controla su Bombo interno. 
+    - Composición con Bombo: crea y controla su Bombo interno.
     - Asociación con Jugador: conoce a los jugadores, pero no los crea ni destruye.
     """
 
     def __init__(self, max_numero: int) -> None:
-        self._bombo = Bombo(max_numero)
+        self.bombo: Bombo = Bombo(max_numero)
         self._jugadores: List[Jugador] = []
-        self._ganador: Optional[Jugador] = None
+        self.ganador: Optional[Jugador] = None
         self._en_curso: bool = False
 
-    @property
-    def bombo(self) -> Bombo:
-        return self._bombo
-
-    @property
-    def jugadores(self) -> List[Jugador]:
+    def get_jugadores(self) -> List[Jugador]:
         return list(self._jugadores)
-
-    @property
-    def ganador(self) -> Optional[Jugador]:
-        return self._ganador
 
     def registrar_jugador(self, jugador: Jugador) -> None:
         if jugador in self._jugadores:
@@ -45,39 +36,33 @@ class Juego:
         self._en_curso = True
 
     def ejecutar_turno(self) -> Optional[Jugador]:
-        """
-        Extrae un número y notifica a todos los jugadores. 
-        Devuelve el ganador si alguien gana en este turno. 
-        """
         if not self._en_curso:
             raise RuntimeError("La partida no está en curso")
-        if not self._bombo.hay_numeros():
+        if not self.bombo.hay_numeros():
             self._en_curso = False
             return None
 
-        numero = self._bombo.extraer()
-        print(f"\nSe extrajo el número: {numero}")
+        numero = self.bombo.extraer()
 
         for jugador in self._jugadores:
             gano = jugador.notificar_numero(numero)
-            if gano and self._ganador is None:
-                self._ganador = jugador
+            if gano and self.ganador is None:
+                self.ganador = jugador
 
-        if self._ganador:
+        if self.ganador:
             self._en_curso = False
-        return self._ganador
+        return self.ganador
 
     def reporte_final(self) -> None:
-        """
-        Imprime un reporte al finalizar la partida. 
-        """
-        print("\n--- REPORTE FINAL ---")
-        if self._ganador:
-            print(f"Ganador: {self._ganador.nombre}")
+        print("\n" + "=" * 40)
+        print("          REPORTE FINAL")
+        print("=" * 40)
+        if self.ganador:
+            print(f"Ganador: {self.ganador.nombre}")
         else:
             print("No hubo ganador.")
-        print("Historial de números extraídos:")
-        print(self._bombo.historial)
-        print("Números marcados por jugador:")
+        print(f"\nNúmeros extraídos ({len(self.bombo.historial)} en total):")
+        print(self.bombo.historial)
+        print("\nNúmeros marcados por jugador:")
         for jugador in self._jugadores:
-            print(f"- {jugador.nombre}: {jugador.numeros_marcados}")
+            print(f"  - {jugador.nombre}: {jugador.numeros_marcados}")
