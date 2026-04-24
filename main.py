@@ -5,7 +5,7 @@ from bingo.jugador import Jugador
 from bingo.juego import Juego
 
 def crear_cartones_demo():
-    # Aquí usas tu implementación real de Carton de la práctica 1
+    # Aquí se usa la implementación real del bingo de la práctica 1
     c1 = Carton("BINGO", 75)
     c2 = Carton("BINGO", 75)
     c3 = Carton("BINGO", 75)
@@ -23,7 +23,7 @@ def main():
 
     j1.agregar_carton(c1)
     j2.agregar_carton(c2)
-    j2.agregar_carton(cdoble)  # al menos un CartonDoble [file:1]
+    j2.agregar_carton(cdoble)  
     j3.agregar_carton(c3)
 
     juego.registrar_jugador(j1)

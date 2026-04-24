@@ -5,11 +5,11 @@ import random
 
 class Bombo:
     """
-    Mecanismo de extracción de números de una partida de bingo. [file:1]
+    Mecanismo de extracción de números de una partida de bingo. 
 
     Relación:
     - Composición con Juego: el Bombo es parte constitutiva del Juego y
-      su ciclo de vida está ligado al del Juego. [file:1]
+      su ciclo de vida está ligado al del Juego. 
     """
 
     def __init__(self, max_numero: int) -> None:
@@ -27,7 +27,7 @@ class Bombo:
 
     def extraer(self) -> int:
         """
-        Extrae un número aleatorio sin repetición y lo guarda en el historial. [file:1]
+        Extrae un número aleatorio sin repetición y lo guarda en el historial. 
         """
         if not self._disponibles:
             raise RuntimeError("No quedan números en el bombo")

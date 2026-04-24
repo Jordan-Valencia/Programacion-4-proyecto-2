@@ -8,10 +8,10 @@ from .carton import Carton
 class CartonDoble(Carton):
     """
     Representa un cartón doble de bingo: contiene dos grillas independientes
-    generadas con los mismos parámetros que el cartón base. [file:1]
+    generadas con los mismos parámetros que el cartón base. 
 
     Relación:
-    - Herencia: CartonDoble es un tipo especializado de Carton. [file:1]
+    - Herencia: CartonDoble es un tipo especializado de Carton. 
     """
 
     def __init__(self, palabra: str = "BINGO", max_num: int = 75) -> None:
@@ -23,7 +23,7 @@ class CartonDoble(Carton):
 
     def marcar_numero(self, numero: int) -> bool:
         """
-        Marca el número en ambas grillas y devuelve True si se marcó en alguna. [file:1]
+        Marca el número en ambas grillas y devuelve True si se marcó en alguna. 
         """
         marcado_primera = super().marcar_numero(numero)
 
@@ -37,7 +37,7 @@ class CartonDoble(Carton):
 
     def tiene_bingo(self) -> bool:
         """
-        Devuelve True si al menos una de las dos grillas tiene bingo. [file:1]
+        Devuelve True si al menos una de las dos grillas tiene bingo. 
         """
         # bingo en primera
         for fila in self.tarjeta:
@@ -64,7 +64,7 @@ class CartonDoble(Carton):
 
     def faltantes_grilla(self, primera: bool = True) -> int:
         """
-        Cuenta cuántos números faltan por marcar en una de las grillas. [file:1]
+        Cuenta cuántos números faltan por marcar en una de las grillas. 
         """
         if primera:
             faltantes = 0
@@ -84,7 +84,7 @@ class CartonDoble(Carton):
     def grilla_mas_cercana(self) -> int:
         """
         Retorna 1 o 2 indicando cuál grilla está más cerca de completarse,
-        según la cantidad de casillas marcadas vs totales. [file:1]
+        según la cantidad de casillas marcadas vs totales. 
         """
         faltantes_1 = self.faltantes_grilla(primera=True)
         faltantes_2 = self.faltantes_grilla(primera=False)
@@ -92,7 +92,7 @@ class CartonDoble(Carton):
 
     def __str__(self) -> str:
         """
-        Representación en texto de las dos grillas (marcadas con X). [file:1]
+        Representación en texto de las dos grillas (marcadas con X). 
         """
         lineas = ["=== GRILLA 1 ===", super().__str__(), "", "=== GRILLA 2 ==="]
         # Imprimimos la segunda usando la misma lógica de Carton pero con sus propios marcados

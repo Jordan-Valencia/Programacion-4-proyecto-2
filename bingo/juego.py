@@ -6,11 +6,11 @@ from .jugador import Jugador
 
 class Juego:
     """
-    Director de una partida de bingo. Coordina jugadores y bombo. [file:1]
+    Director de una partida de bingo. Coordina jugadores y bombo. 
 
     Relaciones:
-    - Composición con Bombo: crea y controla su Bombo interno. [file:1]
-    - Asociación con Jugador: conoce a los jugadores, pero no los crea ni destruye. [file:1]
+    - Composición con Bombo: crea y controla su Bombo interno. 
+    - Asociación con Jugador: conoce a los jugadores, pero no los crea ni destruye.
     """
 
     def __init__(self, max_numero: int) -> None:
@@ -46,8 +46,8 @@ class Juego:
 
     def ejecutar_turno(self) -> Optional[Jugador]:
         """
-        Extrae un número y notifica a todos los jugadores. [file:1]
-        Devuelve el ganador si alguien gana en este turno. [file:1]
+        Extrae un número y notifica a todos los jugadores. 
+        Devuelve el ganador si alguien gana en este turno. 
         """
         if not self._en_curso:
             raise RuntimeError("La partida no está en curso")
@@ -69,7 +69,7 @@ class Juego:
 
     def reporte_final(self) -> None:
         """
-        Imprime un reporte al finalizar la partida. [file:1]
+        Imprime un reporte al finalizar la partida. 
         """
         print("\n--- REPORTE FINAL ---")
         if self._ganador:

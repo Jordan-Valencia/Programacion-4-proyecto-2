@@ -5,11 +5,11 @@ from .carton import Carton
 
 class Jugador:
     """
-    Representa un jugador que posee uno o más cartones de bingo. [file:1]
+    Representa un jugador que posee uno o más cartones de bingo. 
 
     Relaciones:
     - Agregación con Carton: los cartones existen de forma independiente
-      del jugador y pueden reasignarse. [file:1]
+      del jugador y pueden reasignarse. 
     """
 
     def __init__(self, nombre: str) -> None:
@@ -36,7 +36,7 @@ class Jugador:
     def notificar_numero(self, numero: int) -> bool:
         """
         Marca el número en todos sus cartones.
-        Devuelve True si alguno de sus cartones hizo bingo con este número. [file:1]
+        Devuelve True si alguno de sus cartones hizo bingo con este número. 
         """
         hubo_marca = False
         hay_bingo = False
