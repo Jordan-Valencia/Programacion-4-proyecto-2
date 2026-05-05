@@ -1,6 +1,6 @@
 # carton_doble.py
 from __future__ import annotations
-from typing import List
+from typing import List, Set
 
 from .carton import Carton
 
@@ -19,7 +19,7 @@ class CartonDoble(Carton):
         super().__init__(palabra, max_num)
         # segunda grilla usando la misma lógica del Carton base
         self.segunda_tarjeta: List[List[int]] = self.generar_tarjeta()
-        self.marcados_segunda = set()
+        self.marcados_segunda: Set[int] = set()
 
     def marcar_numero(self, numero: int) -> bool:
         """

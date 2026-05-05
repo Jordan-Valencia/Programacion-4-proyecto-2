@@ -5,6 +5,32 @@ from bingo.jugador import Jugador
 from bingo.juego import Juego
 
 
+def pedir_palabra() -> str:
+    while True:
+        palabra = input("  Ingrese la palabra de 5 letras para el cartón (sin letras repetidas): ").strip().upper()
+        if len(palabra) != 5:
+            print("  Error: la palabra debe tener exactamente 5 letras.")
+        elif len(set(palabra)) != 5:
+            print("  Error: la palabra no debe tener letras repetidas.")
+        else:
+            return palabra
+
+
+def pedir_max_numero() -> int:
+    while True:
+        entrada = input("  ¿Cuántos números tendrá el bombo? (entre 50 y 90, múltiplo de 5): ").strip()
+        if not entrada.isdigit():
+            print("  Error: ingrese un número entero.")
+            continue
+        valor = int(entrada)
+        if not (50 <= valor <= 90):
+            print("  Error: el número debe estar entre 50 y 90.")
+        elif valor % 5 != 0:
+            print("  Error: el número debe ser múltiplo de 5.")
+        else:
+            return valor
+
+
 def mostrar_cartones(jugador: Jugador) -> None:
     print(f"\n  Cartones de {jugador.nombre}:")
     for i, carton in enumerate(jugador.get_cartones(), 1):
@@ -13,7 +39,7 @@ def mostrar_cartones(jugador: Jugador) -> None:
             print(f"  {linea}")
 
 
-def registrar_nuevo_jugador(juego: Juego) -> None:
+def registrar_nuevo_jugador(juego: Juego, palabra: str, max_num: int) -> None:
     nombre = input("  Nombre del jugador: ").strip()
     if not nombre:
         print("  Nombre vacío, operación cancelada.")
@@ -22,7 +48,7 @@ def registrar_nuevo_jugador(juego: Juego) -> None:
     jugador = Jugador(nombre)
 
     tipo = input(f"  ¿Cartón simple (s) o doble (d) para {nombre}? ").strip().lower()
-    carton = CartonDoble("BINGO", 75) if tipo == "d" else Carton("BINGO", 75)
+    carton = CartonDoble(palabra, max_num) if tipo == "d" else Carton(palabra, max_num)
     jugador.agregar_carton(carton)
 
     try:
@@ -57,13 +83,16 @@ def dar_de_baja(juego: Juego) -> None:
         print("  Número inválido.")
 
 
-def fase_registro(juego: Juego) -> None:
+def fase_registro(juego: Juego, palabra: str, max_num: int) -> None:
     print("\n=== REGISTRO DE JUGADORES ===")
-    print("Registra al menos un jugador para comenzar.\n")
+    print("Se necesitan al menos 3 jugadores para comenzar.\n")
 
     while True:
-        registrar_nuevo_jugador(juego)
-        if juego.get_jugadores():
+        registrar_nuevo_jugador(juego, palabra, max_num)
+        jugadores_actuales = len(juego.get_jugadores())
+        if jugadores_actuales < 3:
+            print(f"\n  Jugadores registrados: {jugadores_actuales}/3 mínimo. Registra más.")
+        else:
             otra = input("\n¿Registrar otro jugador? (s/n): ").strip().lower()
             if otra != "s":
                 break
@@ -74,9 +103,14 @@ def main() -> None:
     print("        BINGO INTERACTIVO")
     print("=" * 40)
 
-    juego = Juego(max_numero=75)
+    print("\n=== CONFIGURACIÓN DE LA PARTIDA ===")
+    palabra = pedir_palabra()
+    max_num = pedir_max_numero()
+    print(f"\n  Palabra: {palabra} | Números en el bombo: {max_num}")
 
-    fase_registro(juego)
+    juego = Juego(max_numero=max_num)
+
+    fase_registro(juego, palabra, max_num)
     juego.iniciar()
 
     print("\n=== PARTIDA INICIADA ===")
@@ -95,7 +129,7 @@ def main() -> None:
             print("Partida terminada manualmente.")
             break
         elif opcion == "a":
-            registrar_nuevo_jugador(juego)
+            registrar_nuevo_jugador(juego, palabra, max_num)
             continue
         elif opcion == "b":
             dar_de_baja(juego)
@@ -107,6 +141,16 @@ def main() -> None:
         juego.ejecutar_turno()
         numero_actual = juego.bombo.historial[-1]
         print(f"\n  >>> Número extraído: {numero_actual} <<<")
+
+        marcaron = [
+            jugador.nombre
+            for jugador in juego.get_jugadores()
+            if any(numero_actual in carton.marcados for carton in jugador.get_cartones())
+        ]
+        if marcaron:
+            print(f"  Marcaron el {numero_actual}: {', '.join(marcaron)}")
+        else:
+            print(f"  Nadie tenía el {numero_actual} en su cartón.")
 
         for jugador in juego.get_jugadores():
             mostrar_cartones(jugador)

@@ -1,4 +1,6 @@
+from __future__ import annotations
 import random
+from typing import List, Optional, Set, Tuple
 
 
 class Carton:
@@ -11,19 +13,19 @@ class Carton:
     - Verificar si el cartón completó bingo.
 
     Relación:
-    - Es la clase base que será extendida por CartonDoble.
+    - Es la clase base que será extendida por CartonDoble (herencia).
     """
 
-    def __init__(self, palabra="BINGO", max_num=75):
-        self.palabra = palabra.upper()
-        self.tam = len(self.palabra)
-        self.max_num = max_num
+    def __init__(self, palabra: str = "BINGO", max_num: int = 75) -> None:
+        self.palabra: str = palabra.upper()
+        self.tam: int = len(self.palabra)
+        self.max_num: int = max_num
         self._validar_parametros()
-        self.intervalo_columna = self.max_num // self.tam
-        self.tarjeta = self.generar_tarjeta()
-        self.marcados = set()
+        self.intervalo_columna: int = self.max_num // self.tam
+        self.tarjeta: List[List[int]] = self.generar_tarjeta()
+        self.marcados: Set[int] = set()
 
-    def _validar_parametros(self):
+    def _validar_parametros(self) -> None:
         """Valida la palabra y el máximo número del juego."""
         if self.tam != 5:
             raise ValueError("La palabra debe tener exactamente 5 letras.")
@@ -34,16 +36,16 @@ class Carton:
         if self.max_num % self.tam != 0:
             raise ValueError("El máximo número debe ser múltiplo de 5.")
 
-    def _rango_columna(self, col):
+    def _rango_columna(self, col: int) -> Tuple[int, int]:
         """Devuelve el rango [min, max] para una columna."""
         minimo = col * self.intervalo_columna + 1
         maximo = (col + 1) * self.intervalo_columna
         return minimo, maximo
 
-    def generar_tarjeta(self):
+    def generar_tarjeta(self) -> List[List[int]]:
         """Genera una tarjeta aleatoria 5x5 sin números repetidos."""
         tarjeta = [[0] * self.tam for _ in range(self.tam)]
-        usados = set()
+        usados: Set[int] = set()
 
         for col in range(self.tam):
             minimo, maximo = self._rango_columna(col)
@@ -58,7 +60,7 @@ class Carton:
 
         return tarjeta
 
-    def marcar_numero(self, numero):
+    def marcar_numero(self, numero: int) -> bool:
         """Marca un número en la tarjeta si existe en ella."""
         for fila in self.tarjeta:
             if numero in fila:
@@ -66,7 +68,7 @@ class Carton:
                 return True
         return False
 
-    def tiene_bingo(self):
+    def tiene_bingo(self) -> bool:
         """Verifica si todos los números de la tarjeta ya fueron marcados."""
         for fila in self.tarjeta:
             for numero in fila:
@@ -74,7 +76,7 @@ class Carton:
                     return False
         return True
 
-    def faltantes_para_bingo(self):
+    def faltantes_para_bingo(self) -> int:
         """Cuenta cuántos números faltan por marcar para completar bingo."""
         faltantes = 0
         for fila in self.tarjeta:
@@ -83,11 +85,11 @@ class Carton:
                     faltantes += 1
         return faltantes
 
-    def generar_varias_tarjetas(self, cantidad):
+    def generar_varias_tarjetas(self, cantidad: int) -> List[List[List[int]]]:
         """Genera varias tarjetas nuevas con los mismos parámetros."""
         return [self.generar_tarjeta() for _ in range(cantidad)]
 
-    def imprimir_tarjeta(self, tarjeta=None):
+    def imprimir_tarjeta(self, tarjeta: Optional[List[List[int]]] = None) -> None:
         """Imprime una tarjeta con la cabecera de la palabra."""
         if tarjeta is None:
             tarjeta = self.tarjeta
@@ -103,7 +105,7 @@ class Carton:
                     celdas.append("{:2d}".format(numero))
             print("  ".join(celdas))
 
-    def __str__(self):
+    def __str__(self) -> str:
         lineas = ["   ".join(self.palabra), "-" * (self.tam * 4)]
         for fila in self.tarjeta:
             celdas = []
