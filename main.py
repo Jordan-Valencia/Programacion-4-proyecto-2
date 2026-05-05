@@ -1,11 +1,10 @@
-# main.py
 from bingo.carton import Carton
 from bingo.carton_doble import CartonDoble
 from bingo.jugador import Jugador
 from bingo.juego import Juego
 
 
-def pedir_palabra() -> str:
+def pedir_palabra():
     while True:
         palabra = input("  Ingrese la palabra de 5 letras para el cartón (sin letras repetidas): ").strip().upper()
         if len(palabra) != 5:
@@ -16,7 +15,7 @@ def pedir_palabra() -> str:
             return palabra
 
 
-def pedir_max_numero() -> int:
+def pedir_max_numero():
     while True:
         entrada = input("  ¿Cuántos números tendrá el bombo? (entre 50 y 90, múltiplo de 5): ").strip()
         if not entrada.isdigit():
@@ -31,7 +30,7 @@ def pedir_max_numero() -> int:
             return valor
 
 
-def mostrar_cartones(jugador: Jugador) -> None:
+def mostrar_cartones(jugador):
     print(f"\n  Cartones de {jugador.nombre}:")
     for i, carton in enumerate(jugador.get_cartones(), 1):
         print(f"  [Carton {i}]")
@@ -39,7 +38,7 @@ def mostrar_cartones(jugador: Jugador) -> None:
             print(f"  {linea}")
 
 
-def registrar_nuevo_jugador(juego: Juego, palabra: str, max_num: int) -> None:
+def registrar_nuevo_jugador(juego, palabra, max_num):
     nombre = input("  Nombre del jugador: ").strip()
     if not nombre:
         print("  Nombre vacío, operación cancelada.")
@@ -60,7 +59,7 @@ def registrar_nuevo_jugador(juego: Juego, palabra: str, max_num: int) -> None:
         print(f"  Error: {e}")
 
 
-def dar_de_baja(juego: Juego) -> None:
+def dar_de_baja(juego):
     jugadores = juego.get_jugadores()
     if not jugadores:
         print("  No hay jugadores registrados.")
@@ -83,7 +82,7 @@ def dar_de_baja(juego: Juego) -> None:
         print("  Número inválido.")
 
 
-def fase_registro(juego: Juego, palabra: str, max_num: int) -> None:
+def fase_registro(juego, palabra, max_num):
     print("\n=== REGISTRO DE JUGADORES ===")
     print("Se necesitan al menos 3 jugadores para comenzar.\n")
 
@@ -98,7 +97,7 @@ def fase_registro(juego: Juego, palabra: str, max_num: int) -> None:
                 break
 
 
-def main() -> None:
+def main():
     print("=" * 40)
     print("        BINGO INTERACTIVO")
     print("=" * 40)
