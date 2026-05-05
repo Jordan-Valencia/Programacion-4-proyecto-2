@@ -15,7 +15,7 @@ class Juego:
     def __init__(self, max_numero):
         self.bombo = Bombo(max_numero)
         self._jugadores = []
-        self.ganador = None
+        self.ganadores = []
         self._en_curso = False
 
     def get_jugadores(self):
@@ -45,19 +45,24 @@ class Juego:
 
         for jugador in self._jugadores:
             gano = jugador.notificar_numero(numero)
-            if gano and self.ganador is None:
-                self.ganador = jugador
+            if gano and jugador not in self.ganadores:
+                self.ganadores.append(jugador)
 
-        if self.ganador:
+        if self.ganadores:
             self._en_curso = False
-        return self.ganador
+        return self.ganadores
 
     def reporte_final(self):
         print("\n" + "=" * 40)
         print("          REPORTE FINAL")
         print("=" * 40)
-        if self.ganador:
-            print(f"Ganador: {self.ganador.nombre}")
+        if self.ganadores:
+            if len(self.ganadores) == 1:
+                print(f"Ganador: {self.ganadores[0].nombre}")
+            else:
+                print("Ganadores:")
+                for g in self.ganadores:
+                    print(f"  - {g.nombre}")
         else:
             print("No hubo ganador.")
         print(f"\nNúmeros extraídos ({len(self.bombo.historial)} en total):")
