@@ -1,7 +1,6 @@
 # jugador.py
-from __future__ import annotations
-from typing import List
 from .carton import Carton
+
 
 class Jugador:
     """
@@ -12,23 +11,23 @@ class Jugador:
       del jugador y pueden reasignarse.
     """
 
-    def __init__(self, nombre: str) -> None:
-        self.nombre: str = nombre
-        self._cartones: List[Carton] = []
-        self.numeros_marcados: int = 0
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self._cartones = []
+        self.numeros_marcados = 0
 
-    def get_cartones(self) -> List[Carton]:
+    def get_cartones(self):
         return list(self._cartones)
 
-    def agregar_carton(self, carton: Carton) -> None:
+    def agregar_carton(self, carton):
         if carton in self._cartones:
             raise ValueError("El jugador ya tiene ese cartón")
         self._cartones.append(carton)
 
-    def retirar_carton(self, carton: Carton) -> None:
+    def retirar_carton(self, carton):
         self._cartones.remove(carton)
 
-    def notificar_numero(self, numero: int) -> bool:
+    def notificar_numero(self, numero):
         hay_bingo = False
         for carton in self._cartones:
             marcado = carton.marcar_numero(numero)

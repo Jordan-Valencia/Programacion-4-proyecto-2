@@ -1,8 +1,7 @@
 # juego.py
-from __future__ import annotations
-from typing import List, Optional
 from .bombo import Bombo
 from .jugador import Jugador
+
 
 class Juego:
     """
@@ -13,29 +12,29 @@ class Juego:
     - Asociación con Jugador: conoce a los jugadores, pero no los crea ni destruye.
     """
 
-    def __init__(self, max_numero: int) -> None:
-        self.bombo: Bombo = Bombo(max_numero)
-        self._jugadores: List[Jugador] = []
-        self.ganador: Optional[Jugador] = None
-        self._en_curso: bool = False
+    def __init__(self, max_numero):
+        self.bombo = Bombo(max_numero)
+        self._jugadores = []
+        self.ganador = None
+        self._en_curso = False
 
-    def get_jugadores(self) -> List[Jugador]:
+    def get_jugadores(self):
         return list(self._jugadores)
 
-    def registrar_jugador(self, jugador: Jugador) -> None:
+    def registrar_jugador(self, jugador):
         if jugador in self._jugadores:
             raise ValueError("Jugador ya registrado")
         self._jugadores.append(jugador)
 
-    def dar_de_baja_jugador(self, jugador: Jugador) -> None:
+    def dar_de_baja_jugador(self, jugador):
         self._jugadores.remove(jugador)
 
-    def iniciar(self) -> None:
+    def iniciar(self):
         if not self._jugadores:
             raise RuntimeError("No hay jugadores registrados")
         self._en_curso = True
 
-    def ejecutar_turno(self) -> Optional[Jugador]:
+    def ejecutar_turno(self):
         if not self._en_curso:
             raise RuntimeError("La partida no está en curso")
         if not self.bombo.hay_numeros():
@@ -53,7 +52,7 @@ class Juego:
             self._en_curso = False
         return self.ganador
 
-    def reporte_final(self) -> None:
+    def reporte_final(self):
         print("\n" + "=" * 40)
         print("          REPORTE FINAL")
         print("=" * 40)

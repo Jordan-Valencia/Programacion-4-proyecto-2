@@ -1,7 +1,6 @@
 # bombo.py
-from __future__ import annotations
-from typing import List
 import random
+
 
 class Bombo:
     """
@@ -12,16 +11,16 @@ class Bombo:
       su ciclo de vida está ligado al del Juego.
     """
 
-    def __init__(self, max_numero: int) -> None:
+    def __init__(self, max_numero):
         if max_numero <= 0:
             raise ValueError("max_numero debe ser positivo")
-        self._disponibles: List[int] = list(range(1, max_numero + 1))
-        self.historial: List[int] = []
+        self._disponibles = list(range(1, max_numero + 1))
+        self.historial = []
 
-    def hay_numeros(self) -> bool:
+    def hay_numeros(self):
         return len(self._disponibles) > 0
 
-    def extraer(self) -> int:
+    def extraer(self):
         if not self._disponibles:
             raise RuntimeError("No quedan números en el bombo")
         numero = random.choice(self._disponibles)
