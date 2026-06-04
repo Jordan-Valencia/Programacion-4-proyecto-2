@@ -1,67 +1,64 @@
-# juego.py
 from .bombo import Bombo
-from .jugador import Jugador
+from .excepciones import JuegoError
 
 
 class Juego:
-    """
-    Director de una partida de bingo. Coordina jugadores y bombo.
-
-    Relaciones:
-    - Composición con Bombo: crea y controla su Bombo interno.
-    - Asociación con Jugador: conoce a los jugadores, pero no los crea ni destruye.
-    """
-
     def __init__(self, max_numero):
-        self.bombo = Bombo(max_numero)
+        self._bombo = Bombo(max_numero)
         self._jugadores = []
-        self.ganador = None
+        self._ganador = None
         self._en_curso = False
 
     def get_jugadores(self):
         return list(self._jugadores)
 
+    def get_ganador(self):
+        return self._ganador
+
+    def get_historial_numeros(self):
+        return list(self._bombo.historial)
+
+    def hay_numeros_disponibles(self):
+        return self._bombo.hay_numeros()
+
+    def get_numero_actual(self):
+        if not self._bombo.historial:
+            return None
+        return self._bombo.historial[-1]
+
+    def esta_en_curso(self):
+        return self._en_curso
+
     def registrar_jugador(self, jugador):
         if jugador in self._jugadores:
-            raise ValueError("Jugador ya registrado")
+            raise ValueError("Jugador ya registrado.")
         self._jugadores.append(jugador)
 
     def dar_de_baja_jugador(self, jugador):
+        if jugador not in self._jugadores:
+            raise ValueError("Jugador no esta registrado.")
         self._jugadores.remove(jugador)
 
     def iniciar(self):
-        if not self._jugadores:
-            raise RuntimeError("No hay jugadores registrados")
+        if len(self._jugadores) < 3:
+            raise JuegoError("Se necesitan al menos 3 jugadores para iniciar.")
         self._en_curso = True
 
     def ejecutar_turno(self):
         if not self._en_curso:
-            raise RuntimeError("La partida no está en curso")
-        if not self.bombo.hay_numeros():
+            raise JuegoError("La partida no esta en curso.")
+        if not self._bombo.hay_numeros():
             self._en_curso = False
             return None
 
-        numero = self.bombo.extraer()
+        numero = self._bombo.extraer()
 
         for jugador in self._jugadores:
             gano = jugador.notificar_numero(numero)
-            if gano and self.ganador is None:
-                self.ganador = jugador
+            if gano and self._ganador is None:
+                self._ganador = jugador
 
-        if self.ganador:
+        if self._ganador:
             self._en_curso = False
-        return self.ganador
 
-    def reporte_final(self):
-        print("\n" + "=" * 40)
-        print("          REPORTE FINAL")
-        print("=" * 40)
-        if self.ganador:
-            print(f"Ganador: {self.ganador.nombre}")
-        else:
-            print("No hubo ganador.")
-        print(f"\nNúmeros extraídos ({len(self.bombo.historial)} en total):")
-        print(self.bombo.historial)
-        print("\nNúmeros marcados por jugador:")
-        for jugador in self._jugadores:
-            print(f"  - {jugador.nombre}: {jugador.numeros_marcados}")
+        return numero
