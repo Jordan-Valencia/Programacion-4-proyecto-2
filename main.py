@@ -7,7 +7,7 @@ from bingo.generador import GeneradorCarton
 from bingo.excepciones import BingoError, ValidacionError, JuegoError
 
 
-def pedir_palabra() -> str:
+def pedir_palabra():
     while True:
         try:
             palabra = input(
@@ -20,7 +20,7 @@ def pedir_palabra() -> str:
             print(f"  Error: {e}")
 
 
-def pedir_max_numero() -> int:
+def pedir_max_numero():
     while True:
         try:
             entrada = input(
@@ -37,7 +37,7 @@ def pedir_max_numero() -> int:
             print(f"  Error: {e}")
 
 
-def mostrar_cartones(jugador: Jugador) -> None:
+def mostrar_cartones(jugador):
     print(f"\n  Cartones de {jugador.nombre}:")
     for i, carton in enumerate(jugador.get_cartones(), 1):
         print(f"  [Carton {i}]")
@@ -139,7 +139,7 @@ def mostrar_reporte_final(juego: Juego) -> None:
         print(f"  - {jugador.nombre}: {jugador.numeros_marcados}")
 
 
-def fase_registro(juego: Juego, palabra: str, max_num: int) -> None:
+def fase_registro(juego, palabra, max_num):
     print("\n=== REGISTRO DE JUGADORES ===")
     print("Se necesitan al menos 3 jugadores para comenzar.\n")
 

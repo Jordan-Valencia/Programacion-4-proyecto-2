@@ -6,14 +6,17 @@ class Juego:
     def __init__(self, max_numero):
         self._bombo = Bombo(max_numero)
         self._jugadores = []
-        self._ganador = None
+        self._ganadores = []
         self._en_curso = False
 
     def get_jugadores(self):
         return list(self._jugadores)
 
     def get_ganador(self):
-        return self._ganador
+        return self._ganadores[0] if self._ganadores else None
+
+    def get_ganadores(self):
+        return list(self._ganadores)
 
     def get_historial_numeros(self):
         return list(self._bombo.historial)
@@ -55,10 +58,10 @@ class Juego:
 
         for jugador in self._jugadores:
             gano = jugador.notificar_numero(numero)
-            if gano and self._ganador is None:
-                self._ganador = jugador
+            if gano and jugador not in self._ganadores:
+                self._ganadores.append(jugador)
 
-        if self._ganador:
+        if self._ganadores:
             self._en_curso = False
 
         return numero
