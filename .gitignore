@@ -1,6 +1,5 @@
 __pycache__/
 *.pyc
 *.pyo
-informe.pdf
 informe.tex
 test_solid.py
