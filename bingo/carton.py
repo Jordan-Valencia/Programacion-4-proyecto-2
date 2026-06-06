@@ -1,3 +1,8 @@
+# ANTES (SRP): 9 metodos — validaba, generaba grilla, imprimia,
+#   generaba varias tarjetas, etc.
+# ANTES (ISP): 3 metodos nunca usados (faltantes_para_bingo,
+#   generar_varias_tarjetas, imprimir_tarjeta)
+# AHORA: solo 4 metodos — almacena, marca, verifica bingo.
 class Carton:
     def __init__(self, palabra, tarjeta):
         self.palabra = palabra.upper()

@@ -1,3 +1,6 @@
+# NUEVA (SRP): validacion extraida de Carton.
+# ANTES: todo estaba mezclado en Carton.
+# AHORA: solo valida palabra y numero maximo.
 from .excepciones import ValidacionError
 
 

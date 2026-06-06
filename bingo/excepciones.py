@@ -1,3 +1,5 @@
+# NUEVA: jerarquia de excepciones para el proyecto.
+# BingoError (base) -> ValidacionError, JuegoError.
 class BingoError(Exception):
     pass
 

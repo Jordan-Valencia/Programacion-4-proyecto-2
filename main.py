@@ -110,6 +110,9 @@ def dar_de_baja(juego: Juego) -> None:
         print(f"  Error: {e}")
 
 
+# ANTES (DIP): acceso directo a carton.marcados
+#   if numero in carton.marcados: ...
+# AHORA: encapsulado via carton.tiene_marcado(numero)
 def jugadores_marcaron_numero(juego: Juego, numero: int) -> list:
     marcaron = []
     for jugador in juego.get_jugadores():
@@ -119,7 +122,9 @@ def jugadores_marcaron_numero(juego: Juego, numero: int) -> list:
                 break
     return marcaron
 
-
+# ANTES (DIP): reporte_final() estaba dentro de Juego,
+#   accedia a self.bombo.historial y self.ganador directamente.
+# AHORA: funcion separada en main.py, usa getters.
 def mostrar_reporte_final(juego: Juego) -> None:
     print("\n" + "=" * 40)
     print("          REPORTE FINAL")

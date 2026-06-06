@@ -16,6 +16,9 @@ class CartonDoble(Carton):
                 marcado_segunda = True
         return marcado_primera or marcado_segunda
 
+    # ANTES (LSP): bucle for sin efecto antes de la verificacion real
+    # ANTES (ISP): 2 metodos nunca usados (faltantes_grilla, grilla_mas_cercana)
+    # AHORA: solo verificacion con all(), limpio.
     def tiene_bingo(self):
         bingo_primera = all(
             numero in self.marcados

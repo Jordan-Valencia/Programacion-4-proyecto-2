@@ -1,7 +1,9 @@
 from .bombo import Bombo
 from .excepciones import JuegoError
 
-
+# ANTES (DIP): self.bombo y self.ganador eran publicos;
+#   main.py accedia directo: juego.bombo.historial, juego.ganador
+# AHORA: _bombo privado, _ganadores privado, acceso por getters.
 class Juego:
     def __init__(self, max_numero):
         self._bombo = Bombo(max_numero)

@@ -24,6 +24,8 @@ class Jugador:
         for carton in self._cartones:
             if carton.marcar_numero(numero):
                 self.numeros_marcados += 1
+            # ANTES (OCP): getattr(carton, "tiene_bingo", None)()
+            # AHORA: llamada polimorfica directa
             if carton.tiene_bingo():
                 hay_bingo = True
         return hay_bingo

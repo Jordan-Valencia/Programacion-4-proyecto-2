@@ -1,3 +1,6 @@
+# NUEVA (SRP): generacion de grillas extraida de Carton.
+# ANTES: generar_tarjeta(), generar_varias_tarjetas() en Carton.
+# AHORA: solo genera grillas 5x5.
 import random
 
 
